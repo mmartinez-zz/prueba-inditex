@@ -197,8 +197,6 @@ class PriceSelectorTest {
 
         assertTrue(result.isPresent(), "Debe retornar un precio");
         Price selectedPrice = result.get();
-        assertTrue(
-                selectedPrice.equals(firstPrice) || selectedPrice.equals(secondPrice),
-                "Debe retornar uno de los precios con la misma prioridad");
+        assertEquals(secondPrice, selectedPrice);
     }
 }

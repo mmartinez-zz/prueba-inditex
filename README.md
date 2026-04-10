@@ -19,3 +19,5 @@ Proyecto construido con Maven:
 ```bash
 mvn clean install
 ```
+
+- Se define comportamiento determinístico en caso de empate de prioridad
