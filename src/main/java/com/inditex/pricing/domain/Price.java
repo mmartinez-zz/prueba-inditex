@@ -119,6 +119,11 @@ public final class Price {
         }
     }
 
+    public boolean isApplicable(LocalDateTime date) {
+        return (date.isEqual(startDate) || date.isAfter(startDate)) &&
+               (date.isEqual(endDate) || date.isBefore(endDate));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

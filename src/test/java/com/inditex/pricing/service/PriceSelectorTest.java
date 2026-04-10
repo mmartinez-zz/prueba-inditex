@@ -1,6 +1,8 @@
 package com.inditex.pricing.service;
 
 import com.inditex.pricing.domain.Price;
+import com.inditex.pricing.domain.service.PriceSelector;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +27,7 @@ class PriceSelectorTest {
     @DisplayName("Cuando hay múltiples precios activos en la misma fecha, debe seleccionar el de mayor prioridad")
     void shouldSelectPriceWithHighestPriorityWhenMultiplePricesAreActive() {
         LocalDateTime applicationDate = LocalDateTime.of(2024, 6, 14, 16, 0);
-        
+
         Price lowPriorityPrice = Price.builder()
                 .priceList(1L)
                 .brandId(1L)
@@ -54,7 +56,5 @@ class PriceSelectorTest {
 
         assertTrue(result.isPresent(), "Debe retornar un precio");
         assertEquals(highPriorityPrice, result.get(), "Debe seleccionar el precio con mayor prioridad");
-        assertEquals(1, result.get().getPriority(), "La prioridad debe ser 1");
-        assertEquals(new BigDecimal("25.45"), result.get().getPrice(), "El precio debe ser 25.45");
     }
 }

@@ -60,8 +60,10 @@ public final class PriceQuery {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+           return true;
+        if (o == null || getClass() != o.getClass())
+           return false;
         PriceQuery that = (PriceQuery) o;
         return Objects.equals(applicationDate, that.applicationDate) &&
                 Objects.equals(productId, that.productId) &&
