@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface PriceRepositoryPort {
 
-    List<Price> findPricesByProductAndBrand(Long productId, Long brandId);
+    List<Price> findPricesByProductAndBrand
+    (Long productId, Long brandId);
 }
