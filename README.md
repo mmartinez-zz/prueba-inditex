@@ -1,63 +1,61 @@
-Pricing Domain
+# Pricing Service
 
-Se ha comenzado la implementación del dominio para la resolución de precios.
+Spring Boot service that exposes a REST endpoint to retrieve the applicable price for a product based on a given date, brand and product identifier.
 
-Actualmente se modela:
+## Features
 
-- Entidad `Price`
-- Objeto de consulta `PriceQuery`
-- Servicio de dominio para selección de precios basado en:
-  - Rango de fechas
-  - Prioridad
-
-Se ha implementado la lógica inicial mediante TDD.
+- Hexagonal architecture (domain, application, infrastructure)
+- Priority-based price selection with deterministic behavior
+- REST API with validation and centralized error handling
+- In-memory H2 database initialized with sample data
+- Unit and integration tests covering business scenarios
 
 ## Build
 
-Proyecto construido con Maven:
+Project built with Maven:
 
 ```bash
 mvn clean install
 ```
 
-- Se define comportamiento determinístico en caso de empate de prioridad
+- Deterministic behavior is defined in case of priority tie
 
 ## Application Layer
 
-Se introduce la capa de aplicación mediante el caso de uso:
+The application logic is handled through the use case:
 
 - GetApplicablePriceUseCase
 
-Este orquesta la lógica de negocio delegando en:
-- PriceRepositoryPort (acceso a datos)
-- PriceSelector (lógica de dominio)
+This component orchestrates the flow by:
+- Retrieving data through `PriceRepositoryPort`
+- Delegating the price selection logic to `PriceSelector`
 
 ## Infrastructure
 
-Se implementa el adapter de persistencia utilizando Spring Data JPA y H2.
+Persistence is implemented using Spring Data JPA with an in-memory H2 database.
 
-- PriceEntity (entidad JPA)
-- PriceJpaRepository
-- PriceRepositoryAdapter
-- PriceMapper (entity → domain)
+- `PriceEntity` maps the database structure
+- `PriceJpaRepository` provides data access
+- `PriceRepositoryAdapter` bridges the domain with persistence
+- `PriceMapper` handles entity-to-domain conversion
 
 ## API Testing
 
 ## Endpoint: GET /prices
 
-### Parámetros
-- `applicationDate`: Fecha y hora de aplicación (formato ISO: YYYY-MM-DDTHH:mm:ss)
-- `productId`: ID del producto
-- `brandId`: ID de la marca
+### Parameters
+- `applicationDate`: Application date and time (ISO format: YYYY-MM-DDTHH:mm:ss)
+- `productId`: Product ID
+- `brandId`: Brand ID
 
-### Ejemplos de uso
+### Examples
 
-#### Test 1: 10:00 del día 14 para producto 35455 y marca 1
+#### Test 1: 10:00 on day 14 for product 35455 and brand 1
 ```bash
 curl "http://localhost:8080/prices?applicationDate=2020-06-14T10:00:00&productId=35455&brandId=1"
 ```
 
-**Respuesta esperada:**
+**Expected response:**
 ```json
 {
   "productId": 35455,
@@ -69,12 +67,12 @@ curl "http://localhost:8080/prices?applicationDate=2020-06-14T10:00:00&productId
 }
 ```
 
-#### Test 2: 16:00 del día 14 para producto 35455 y marca 1
+#### Test 2: 16:00 on day 14 for product 35455 and brand 1
 ```bash
 curl "http://localhost:8080/prices?applicationDate=2020-06-14T16:00:00&productId=35455&brandId=1"
 ```
 
-**Respuesta esperada:**
+**Expected response:**
 ```json
 {
   "productId": 35455,
@@ -86,12 +84,12 @@ curl "http://localhost:8080/prices?applicationDate=2020-06-14T16:00:00&productId
 }
 ```
 
-#### Test 3: 21:00 del día 14 para producto 35455 y marca 1
+#### Test 3: 21:00 on day 14 for product 35455 and brand 1
 ```bash
 curl "http://localhost:8080/prices?applicationDate=2020-06-14T21:00:00&productId=35455&brandId=1"
 ```
 
-**Respuesta esperada:**
+**Expected response:**
 ```json
 {
   "productId": 35455,
@@ -103,12 +101,12 @@ curl "http://localhost:8080/prices?applicationDate=2020-06-14T21:00:00&productId
 }
 ```
 
-#### Test 4: 10:00 del día 15 para producto 35455 y marca 1
+#### Test 4: 10:00 on day 15 for product 35455 and brand 1
 ```bash
 curl "http://localhost:8080/prices?applicationDate=2020-06-15T10:00:00&productId=35455&brandId=1"
 ```
 
-**Respuesta esperada:**
+**Expected response:**
 ```json
 {
   "productId": 35455,
@@ -120,12 +118,12 @@ curl "http://localhost:8080/prices?applicationDate=2020-06-15T10:00:00&productId
 }
 ```
 
-#### Test 5: 21:00 del día 16 para producto 35455 y marca 1
+#### Test 5: 21:00 on day 16 for product 35455 and brand 1
 ```bash
 curl "http://localhost:8080/prices?applicationDate=2020-06-16T21:00:00&productId=35455&brandId=1"
 ```
 
-**Respuesta esperada:**
+**Expected response:**
 ```json
 {
   "productId": 35455,
@@ -137,20 +135,25 @@ curl "http://localhost:8080/prices?applicationDate=2020-06-16T21:00:00&productId
 }
 ```
 
-#### Caso sin precio aplicable (404)
+#### Case with no applicable price (404)
 ```bash
 curl -i "http://localhost:8080/prices?applicationDate=2025-01-01T10:00:00&productId=99999&brandId=1"
 ```
 
-**Respuesta esperada:**
-```
-HTTP/1.1 404 Not Found
+**Expected response:**
+```json
+{
+    "timestamp": "2026-04-10T11:58:52.276895",
+    "status": 404,
+    "error": "Not Found",
+    "message": "No applicable price found for productId: 99999, brandId: 1, applicationDate: 2025-01-01T10:00"
+}
 ```
 
-## Iniciar la aplicación
+## Start the application
 
 ```bash
 mvn spring-boot:run
 ```
 
-La aplicación estará disponible en `http://localhost:8080`
+Application will be available at `http://localhost:8080`

@@ -1,0 +1,58 @@
+{
+  "info": {
+    "_postman_id": "4c16e012-2fc5-4a88-99b7-5108dea48342",
+    "name": "Prueba Técnica INDITEX",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "6833307"
+  },
+  "item": [
+    {
+      "name": "Test 1: 10:00 del día 14 para producto 35455 y marca 1",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Test 2: 16:00 del día 14 para producto 35455 y marca 1",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Test 3: 21:00 del día 14 para producto 35455 y marca 1",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Test 4: 10:00 del día 15 para producto 35455 y marca",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Test 5: 21:00 del día 16 para producto 35455 y marca 1",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Caso sin precio aplicable (404)",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
