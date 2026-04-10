@@ -21,3 +21,13 @@ mvn clean install
 ```
 
 - Se define comportamiento determinístico en caso de empate de prioridad
+
+## Application Layer
+
+Se introduce la capa de aplicación mediante el caso de uso:
+
+- GetApplicablePriceUseCase
+
+Este orquesta la lógica de negocio delegando en:
+- PriceRepositoryPort (acceso a datos)
+- PriceSelector (lógica de dominio)
