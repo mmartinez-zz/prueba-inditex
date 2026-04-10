@@ -12,6 +12,9 @@ public class PriceSelector {
     public Optional<Price> selectApplicablePrice(List<Price> prices, LocalDateTime applicationDate) {
         return prices.stream()
                 .filter(price -> price.isApplicable(applicationDate))
-                .max(Comparator.comparing(Price::getPriority));
+                .max(
+                    Comparator.comparing(Price::getPriority)
+                              .thenComparing(Price::getStartDate)
+                );
     }
 }
